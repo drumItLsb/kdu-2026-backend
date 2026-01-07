@@ -2,7 +2,6 @@ import java.util.stream.IntStream;
 
 public class StreamsDemo {
     public static void main(String[] args) {
-        // parallel streams
         long start = 0, end = 0;
 
         start = System.currentTimeMillis();
