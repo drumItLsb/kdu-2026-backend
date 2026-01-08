@@ -4,8 +4,10 @@ import com.example.library.model.Book;
 import com.example.library.service.BookService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/books")
+@RequestMapping("/api/v1/books")
 public class BookController {
     @Autowired
     private BookService bookService;
@@ -30,15 +32,23 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<Map<String, Object>> getAllBooks() {
-        List<Book> returnedBooks = bookService.getAllBooks();
+    public ResponseEntity<Page<Book>> getAllBooks(
+            @RequestParam() String author,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "title") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction
+    ) {
+        Page<Book> productPage = bookService.getAllBooks(author, page, size, sortBy, direction);
+        return ResponseEntity.ok(productPage);
+    }
+
+    @GetMapping("/id/{bookId}")
+    public ResponseEntity<Map<String, Object>> findBookById(@PathVariable int bookId) {
         Map<String,Object> result = new HashMap<String,Object>();
-
-        if(returnedBooks.isEmpty()) {
-            result.put("message","Inventory is Empty");
-        }
-
-        result.put("Content",returnedBooks);
+        result.put("book",bookService.findBookById(bookId));
+        result.put("selfLink","http://localhost:8080/api/books/id/1");
+        result.put("collection(all books)","http://localhost:8080/api/books?author={authorName}");
         return ResponseEntity.ok(result);
     }
 
@@ -49,7 +59,9 @@ public class BookController {
         return ResponseEntity.ok(updatedBook);
     }
 
+
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteBookById(@PathVariable int id) {
         bookService.deleteBookById(id);
         return ResponseEntity.ok("Book with id: "+id+" deleted Successfully");

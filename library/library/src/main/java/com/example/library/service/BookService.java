@@ -4,9 +4,11 @@ import com.example.library.model.Book;
 import com.example.library.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 @Service
 public class BookService {
@@ -22,8 +24,17 @@ public class BookService {
         }
     }
 
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public Page<Book> getAllBooks(String author, int page, int size, String sortBy, String direction) {
+        Sort sort = direction.equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        // Create Pageable object (page is 0-indexed in JPA)
+        Pageable pageable = PageRequest.of(page, size, sort);
+        if (author != null && !author.isEmpty()) {
+            return bookRepository.findByAuthorIgnoreCase(author, pageable);
+        }
+        return bookRepository.findAll(pageable);
     }
 
     public Book updateBook(Book book, int id) {
@@ -31,6 +42,12 @@ public class BookService {
         retrivedBook.setTitle(book.getTitle());
         bookRepository.save(retrivedBook);
         return retrivedBook;
+    }
+
+    public Book findBookById(int id) {
+        return bookRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("Book with id: "+id+" not found"));
     }
 
     public void deleteBookById(int id) {
