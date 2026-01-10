@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +39,7 @@ public class BookController {
             @RequestParam(defaultValue = "asc") String direction
     ) {
         Page<Book> productPage = bookService.getAllBooks(author, page, size, sortBy, direction);
+        // also send links
         return ResponseEntity.ok(productPage);
     }
 
@@ -61,7 +61,6 @@ public class BookController {
 
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteBookById(@PathVariable int id) {
         bookService.deleteBookById(id);
         return ResponseEntity.ok("Book with id: "+id+" deleted Successfully");
