@@ -1,7 +1,10 @@
 package com.example.talentPortal.exception;
 
+import com.example.talentPortal.controllers.AuthController;
 import com.example.talentPortal.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -11,6 +14,8 @@ import java.time.Instant;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
+    private static final Logger log = LoggerFactory.getLogger(ApiExceptionHandler.class);
+
 
     @ExceptionHandler(ResourceAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleAlreadyExists(ResourceAlreadyExistsException ex, HttpServletRequest req) {
@@ -40,6 +45,10 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex, HttpServletRequest req) {
+        if(ex.getMessage().contains("Access Denied")) {
+            log.warn("Unauthorized access prevented");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse(Instant.now(), 403, "Unauthorized operation", ex.getMessage(), req.getRequestURI()));
+        }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                 new ErrorResponse(Instant.now(), 500, "Internal Server Error", ex.getMessage(), req.getRequestURI())
         );

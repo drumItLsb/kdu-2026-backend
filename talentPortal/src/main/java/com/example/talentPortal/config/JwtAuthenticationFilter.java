@@ -54,7 +54,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
 
-            // (Optional) You can also compare roles from token vs DB if you want stricter checking
             List<SimpleGrantedAuthority> authorities = jwtService.extractRoles(token).stream()
                     .map(SimpleGrantedAuthority::new)
                     .toList();
