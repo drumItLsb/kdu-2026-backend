@@ -44,6 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = authHeader.substring(7);
 
         if (!jwtService.isTokenValid(token)) {
+            request.setAttribute(CustomAuthenticationEntryPoint.AUTH_ERROR_ATTR, "Invalid or expired token");
             filterChain.doFilter(request, response);
             return;
         }
