@@ -37,7 +37,7 @@ public class Package {
         this.destination = destination;
         this.weight = weight;
         this.status = status;
-        this.deliveryType=  deliveryType;
+        this.deliveryType =  deliveryType;
     }
 
     public String getDeliveryType() {

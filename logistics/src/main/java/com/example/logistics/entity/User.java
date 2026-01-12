@@ -2,6 +2,9 @@ package com.example.logistics.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(
         name = "users",
@@ -25,17 +28,18 @@ public class User {
     @Column(nullable = false, length = 120)
     private String email;
 
-        @Column(nullable = false)
-        private String role;
-
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role", nullable = false)
+    private List<String> roles = new ArrayList<>();
 
     public User() {}
 
-    public User(String userName, String password, String email, String role) {
+    public User(String userName, String password, String email, List<String> roles) {
         this.userName = userName;
         this.password = password;
         this.email = email;
-        this.role = role;
+        this.roles = roles;
     }
 
     public Long getId() { return id; }
@@ -48,6 +52,6 @@ public class User {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public String getRoles() { return role; }
-    public void setRoles(String role) { this.role = role; }
+    public List<String> getRoles() { return roles; }
+    public void setRoles(List<String> roles) { this.roles = roles; }
 }
