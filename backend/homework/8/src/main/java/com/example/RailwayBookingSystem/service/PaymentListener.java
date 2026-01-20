@@ -20,11 +20,11 @@ public class PaymentListener {
         this.processedEventRepository = processedEventRepository;
     }
 
-    @Transactional
+//    @Transactional
     @RabbitListener(queues = "payment.deduct.q")
     public void onPaymentDeduct(PaymentDeductEvent event) {
         try {
-            processedEventRepository.save(new ProcessedEvent(event.getEventId()));
+            processedEventRepository.saveAndFlush(new ProcessedEvent(event.getEventId()));
         } catch (DataIntegrityViolationException dup) {
             log.warn("PAYMENT duplicate ignored eventId={} paymentRef={}", event.getEventId(), event.getPaymentRef());
             return;
