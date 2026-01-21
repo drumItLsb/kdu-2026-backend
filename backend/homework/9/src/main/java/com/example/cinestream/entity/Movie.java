@@ -25,6 +25,10 @@ public class Movie {
     @NotBlank(message = "genre is required")
     private String genre;
 
-    @NotBlank(message = "directorId is required")
-    private int directorId;
+    @ManyToOne(optional = false)
+    @JoinColumn(
+            name = "director_id",           // FK column in movie table
+            referencedColumnName = "id"
+    )
+    private Integer directorId;
 }
