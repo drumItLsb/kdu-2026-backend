@@ -1,0 +1,21 @@
+2026-01-11 23:51:10.582 [main] INFO  c.e.t.TalentPortalApplication - Starting TalentPortalApplication using Java 17.0.17 with PID 8068 (C:\Users\Admin\IdeaProjects\kdu-2026-backend\talentPortal\target\classes started by Admin in C:\Users\Admin\IdeaProjects\kdu-2026-backend\talentPortal)
+2026-01-11 23:51:10.589 [main] INFO  c.e.t.TalentPortalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-01-11 23:51:11.430 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-11 23:51:11.487 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 44 ms. Found 1 JPA repository interface.
+2026-01-11 23:51:12.320 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-01-11 23:51:12.413 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1757 ms
+2026-01-11 23:51:13.183 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-11 23:51:13.653 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-11 23:51:14.939 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-11 23:51:15.035 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-11 23:51:15.379 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-01-11 23:51:15.490 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-11 23:51:16.190 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-01-11 23:51:16.197 [main] INFO  c.e.t.TalentPortalApplication - Started TalentPortalApplication in 6.065 seconds (process running for 6.846)
+2026-01-11 23:52:27.764 [http-nio-8080-exec-3] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-01-11 23:52:27.767 [http-nio-8080-exec-3] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2026-01-11 23:52:29.615 [http-nio-8080-exec-3] INFO  c.e.t.controllers.AuthController - User: dragon Successfully logged in
+2026-01-11 23:53:43.697 [http-nio-8080-exec-7] WARN  c.e.t.exception.ApiExceptionHandler - Unauthorized access prevented
+2026-01-11 23:53:54.759 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-11 23:53:54.838 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-01-11 23:53:54.843 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
