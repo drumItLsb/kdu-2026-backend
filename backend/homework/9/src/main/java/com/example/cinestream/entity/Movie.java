@@ -30,5 +30,9 @@ public class Movie {
             name = "director_id",           // FK column in movie table
             referencedColumnName = "id"
     )
-    private Integer directorId;
+    private Director directorId;
+
+    private String comment;
+
+    private Integer rating;
 }

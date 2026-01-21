@@ -21,6 +21,6 @@ public class Director {
     @NotBlank(message = "name is required")
     private String name;
 
-    private int totalAwards;
+    private Integer totalAwards;
 }
 
