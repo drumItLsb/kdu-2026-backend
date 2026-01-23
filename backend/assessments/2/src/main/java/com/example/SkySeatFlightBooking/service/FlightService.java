@@ -30,6 +30,9 @@ public class FlightService {
     }
 
     public Flight updateFlight(Flight flight, String flightId) {
+        if(flight.getTotalSeats() < 0) {
+            throw new RuntimeException("Seats can't ne less than equal to zero");
+        }
         Flight retrivedFlight = flightRepository.findById(flightId).orElseThrow(() -> new RuntimeException("Flight with id: "+flightId+" not found"));
         retrivedFlight.setTotalSeats(flight.getTotalSeats());
         flightRepository.save(retrivedFlight);
