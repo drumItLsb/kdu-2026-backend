@@ -16,8 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 public class Flight {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer flightNumber;
+    private String flightNumber;
 
     @Column(nullable = false)
     @NotBlank(message = "source is required")
@@ -28,10 +27,8 @@ public class Flight {
     private String destination;
 
     @Column(nullable = false)
-    @NotBlank(message = "DepartureTime is required")
     private LocalDateTime departureTime;
 
     @Column(nullable = false)
-    @NotBlank(message = "totalSeats is required")
     private Integer totalSeats;
 }
