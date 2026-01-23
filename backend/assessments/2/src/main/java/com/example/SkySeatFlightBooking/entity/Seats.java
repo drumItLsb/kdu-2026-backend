@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,17 +14,11 @@ import java.util.UUID;
 public class Seats {
 
     @Id
-    private String holdId;
-
-    @PrePersist
-    public void generateId() {
-        if (this.holdId == null) {
-            this.holdId = UUID.randomUUID().toString();
-        }
-    }
-
     @Column(nullable = false)
     private Integer seatNumber;
+
+    @Column(nullable = false)
+    private String holdId;
 
     @Column(nullable = false)
     private boolean hold = true;

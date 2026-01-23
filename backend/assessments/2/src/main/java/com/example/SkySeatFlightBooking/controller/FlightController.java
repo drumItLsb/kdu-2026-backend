@@ -1,5 +1,6 @@
 package com.example.SkySeatFlightBooking.controller;
 
+import com.example.SkySeatFlightBooking.dto.HoldDto;
 import com.example.SkySeatFlightBooking.entity.Flight;
 import com.example.SkySeatFlightBooking.service.FlightService;
 import jakarta.validation.Valid;
@@ -7,6 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -40,4 +44,5 @@ public class FlightController {
         // also send links
         return ResponseEntity.ok(productPage);
     }
+
 }
