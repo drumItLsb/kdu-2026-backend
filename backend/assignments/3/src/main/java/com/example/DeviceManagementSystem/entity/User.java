@@ -32,5 +32,5 @@ public class User extends BaseEntity {
     private String password;
 
     @Column(nullable = false,unique = true)
-    private String name;
+    private String user_name;
 }
