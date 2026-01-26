@@ -4,6 +4,7 @@ import com.example.DeviceManagementSystem.dto.*;
 import com.example.DeviceManagementSystem.entity.*;
 import com.example.DeviceManagementSystem.exception.NotFoundException;
 import com.example.DeviceManagementSystem.exception.ResourceAlreadyExistsException;
+import com.example.DeviceManagementSystem.exception.UnAuthorizedAccessException;
 import com.example.DeviceManagementSystem.exception.UserNotFoundException;
 import com.example.DeviceManagementSystem.repository.*;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -89,14 +90,14 @@ public class HouseService {
                 .orElseThrow(() -> new UserNotFoundException("User with email: "+userEmail+" doesn't exist"));
 
         if(!isAdmin(user.getId(), houseId)) {
-            throw new RuntimeException("Un-authorized access, you can't create rooms in house"+houseId);
+            throw new UnAuthorizedAccessException("Un-authorized access, you can't create rooms in house with id: "+houseId);
         }
 
         if(roomRepository.existsByRoomName(roomName,houseId) == 1L) {
             throw new ResourceAlreadyExistsException("Room with this name already exists in the house");
         }
 
-        House house = houseRepository.findById(houseId).orElseThrow(() -> new RuntimeException("House by id: "+houseId+" doesn't exist"));
+        House house = houseRepository.findById(houseId).orElseThrow(() -> new NotFoundException("House by id: "+houseId+" doesn't exist"));
         Room room = new Room(roomName,house);
 
         roomRepository.save(room);
@@ -129,7 +130,7 @@ public class HouseService {
         System.out.println("got admin");
 
         if(!isAdmin(user.getId(), houseId)) {
-            throw new RuntimeException("Un-authorized access, you can't create rooms in house"+houseId);
+            throw new UnAuthorizedAccessException("Un-authorized access, you can't add users to house with id: "+houseId);
         }
 
         System.out.println("admin error");
@@ -218,7 +219,7 @@ public class HouseService {
 
 
         if(!isAdmin(userId, houseId)) {
-            throw new RuntimeException("Un-authorized access, you can't add devices to this house"+houseId);
+            throw new UnAuthorizedAccessException("Un-authorized access, you can't add devices to house with id: "+houseId);
         }
 
         System.out.println("User is admin");

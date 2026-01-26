@@ -26,6 +26,13 @@ public class ApiExceptionHandler {
         );
     }
 
+    @ExceptionHandler(UnAuthorizedAccessException.class)
+    public ResponseEntity<ErrorResponseDTO> handleUnAuthorizedAccessExceptions(UnAuthorizedAccessException ex, HttpServletRequest req) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                new ErrorResponseDTO(Instant.now(), 401, "Unauthorized", "User is not authorized to access this resource", req.getRequestURI())
+        );
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponseDTO> handleBadCreds(BadCredentialsException ex, HttpServletRequest req) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
