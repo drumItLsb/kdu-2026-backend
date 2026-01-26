@@ -55,7 +55,7 @@ public class HouseService {
 
 
         if(houseRepository.existsByHouseName(houseName,user.getId()) == 1L) {
-            throw new RuntimeException("User already has the house with same name, please create house with different name");
+            throw new ResourceAlreadyExistsException("User already has the house with same name, please create house with different name");
         }
 
         House house = new House(UUID.randomUUID().toString(),user,address,houseName);
@@ -91,7 +91,7 @@ public class HouseService {
         }
 
         if(roomRepository.existsByRoomName(roomName,houseId) == 1L) {
-            throw new RuntimeException("Room with this name already exists in the house");
+            throw new ResourceAlreadyExistsException("Room with this name already exists in the house");
         }
 
         House house = houseRepository.findById(houseId).orElseThrow(() -> new RuntimeException("House by id: "+houseId+" doesn't exist"));
@@ -142,7 +142,7 @@ public class HouseService {
 
         User userToBeAdded = userRepository
                 .findById(userToBeAddedId)
-                .orElseThrow(() -> new RuntimeException("User doesn't exist"));
+                .orElseThrow(() -> new UserNotFoundException("User to add userID:"+userToBeAddedId+" doesn't exist"));
         House house = houseRepository.findById(houseId).orElseThrow(() -> new RuntimeException("House by id: "+houseId+" doesn't exist"));
         UsersInHouse newUser = new UsersInHouse(house,userToBeAdded,false);
 
@@ -173,7 +173,7 @@ public class HouseService {
 
 
         if(usersInHouseRepository.checkIfUserExistsById(userId,houseId) != 1L) {
-            throw new RuntimeException("User not in the house");
+            throw new UserNotFoundException("User with id: "+userId+" not found in the house with id: "+houseId);
         }
 
         System.out.println("User is in house");
@@ -222,13 +222,13 @@ public class HouseService {
         System.out.println("User is admin");
 
         if(deviceAssignmentRepository.checkIfDeviceExistsInRoom(kickstonId,houseId) == 1L) {
-            throw new RuntimeException("Device is already in house");
+            throw new ResourceAlreadyExistsException("Device is already in house");
         }
 
         System.out.println("device not in house");
 
         if(deviceAssignmentRepository.checkIfDeviceExistsInDifferentHouse(kickstonId,houseId) == 1L) {
-            throw new RuntimeException("Device is in another house, so can't add it to current house");
+            throw new ResourceAlreadyExistsException("Device is in another house, so can't add it to current house");
         }
 
         System.out.println("device not in another house");
