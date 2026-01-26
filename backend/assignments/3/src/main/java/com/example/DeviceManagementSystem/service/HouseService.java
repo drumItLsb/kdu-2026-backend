@@ -1,15 +1,10 @@
 package com.example.DeviceManagementSystem.service;
 
 import com.example.DeviceManagementSystem.dto.*;
-import com.example.DeviceManagementSystem.entity.House;
-import com.example.DeviceManagementSystem.entity.Room;
-import com.example.DeviceManagementSystem.entity.User;
-import com.example.DeviceManagementSystem.entity.UsersInHouse;
+import com.example.DeviceManagementSystem.entity.*;
 import com.example.DeviceManagementSystem.exception.ResourceAlreadyExistsException;
-import com.example.DeviceManagementSystem.repository.HouseRepository;
-import com.example.DeviceManagementSystem.repository.RoomRepository;
-import com.example.DeviceManagementSystem.repository.UserRepository;
-import com.example.DeviceManagementSystem.repository.UsersInHouseRepository;
+import com.example.DeviceManagementSystem.repository.*;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,12 +17,14 @@ public class HouseService {
     private final UsersInHouseRepository usersInHouseRepository;
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
+    private final DeviceAssignmentRepository deviceAssignmentRepository;
 
-    public HouseService(HouseRepository houseRepository, UsersInHouseRepository usersInHouseRepository, UserRepository userRepository, RoomRepository roomRepository) {
+    public HouseService(HouseRepository houseRepository, UsersInHouseRepository usersInHouseRepository, UserRepository userRepository, RoomRepository roomRepository,  DeviceAssignmentRepository deviceAssignmentRepository) {
         this.houseRepository = houseRepository;
         this.usersInHouseRepository = usersInHouseRepository;
         this.userRepository = userRepository;
         this.roomRepository = roomRepository;
+        this.deviceAssignmentRepository = deviceAssignmentRepository;
     }
 
     public boolean userExists(String userEmail) {
@@ -101,6 +98,7 @@ public class HouseService {
         return new RoomCreationResponseDTO(roomName,room.getId(),house.getHouse_name(),user.getUserName());
     }
 
+    @Transactional
     public UserRegisterToHouseResponseDTO registerUserToHouse(UserRegisterToHouseRequestDTO userRegisterToHouseRequestDTO) {
         String userEmail = userRegisterToHouseRequestDTO.getEmail();
         String houseId = userRegisterToHouseRequestDTO.getHouseId();
@@ -149,5 +147,33 @@ public class HouseService {
         usersInHouseRepository.save(newUser);
 
         return new UserRegisterToHouseResponseDTO(userToBeAdded.getUserName(),houseId);
+    }
+
+    @Transactional
+    public DeviceAssignmentResponseDTO assignDeviceToRooms(DeviceAssignmentRequestDTO deviceAssignmentRequestDTO) {
+        String kickstonId = deviceAssignmentRequestDTO.getKickston_id();
+        String houseId = deviceAssignmentRequestDTO.getHouseId();
+        Integer roomId = deviceAssignmentRequestDTO.getRoomId();
+        Long userId = deviceAssignmentRequestDTO.getUserId();
+
+        if(usersInHouseRepository.checkIfUserExistsById(userId,houseId) != 1L) {
+            throw new RuntimeException("User not in the house");
+        }
+
+        System.out.println("User is in house");
+
+        if(deviceAssignmentRepository.checkIfDeviceExistsInRoom(kickstonId,houseId) != 1L) {
+            throw new RuntimeException("Device is not in house");
+        }
+
+        System.out.println("device not in house");
+
+        if(deviceAssignmentRepository.changeDeviceRoom(kickstonId,houseId,roomId) != 1L) {
+            throw new RuntimeException("Something went wrong");
+        }
+
+        System.out.println("Moved device to another room");
+
+        return new DeviceAssignmentResponseDTO(kickstonId,roomId,houseId);
     }
 }
