@@ -2,9 +2,11 @@ package com.example.DeviceManagementSystem.service;
 
 import com.example.DeviceManagementSystem.dto.*;
 import com.example.DeviceManagementSystem.entity.*;
+import com.example.DeviceManagementSystem.exception.NotFoundException;
 import com.example.DeviceManagementSystem.exception.ResourceAlreadyExistsException;
 import com.example.DeviceManagementSystem.exception.UserNotFoundException;
 import com.example.DeviceManagementSystem.repository.*;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -143,7 +145,7 @@ public class HouseService {
         User userToBeAdded = userRepository
                 .findById(userToBeAddedId)
                 .orElseThrow(() -> new UserNotFoundException("User to add userID:"+userToBeAddedId+" doesn't exist"));
-        House house = houseRepository.findById(houseId).orElseThrow(() -> new RuntimeException("House by id: "+houseId+" doesn't exist"));
+        House house = houseRepository.findById(houseId).orElseThrow(() -> new NotFoundException("House by id: "+houseId+" doesn't exist"));
         UsersInHouse newUser = new UsersInHouse(house,userToBeAdded,false);
 
         System.out.println("user added to house");
@@ -166,7 +168,7 @@ public class HouseService {
         System.out.println("User exists");
 
         if(!houseRepository.existsById(houseId)) {
-            throw new RuntimeException("House with id: "+houseId+" doesn't exist");
+            throw new NotFoundException("House with id: "+houseId+" doesn't exist");
         }
 
         System.out.println("House exists");
@@ -179,7 +181,7 @@ public class HouseService {
         System.out.println("User is in house");
 
         if(deviceAssignmentRepository.checkIfDeviceExistsInRoom(kickstonId,houseId) != 1L) {
-            throw new RuntimeException("Device is not in house");
+            throw new NotFoundException("Device with id: "+kickstonId+" is not in house with id: "+houseId);
         }
 
         System.out.println("device is in house");
@@ -209,7 +211,7 @@ public class HouseService {
         System.out.println("User exists");
 
         if(!houseRepository.existsById(houseId)) {
-            throw new RuntimeException("House with id: "+houseId+" doesn't exist");
+            throw new NotFoundException("House with id: "+houseId+" doesn't exist");
         }
 
         System.out.println("house exists");
@@ -234,13 +236,13 @@ public class HouseService {
         System.out.println("device not in another house");
 
         if(centralDeviceInventoryRepository.checkIfGivenDeivceExists(kickstonId,deviceUserName,devicePassword) != 1L) {
-            throw new RuntimeException("Either device doesn't exist or given credentials are wrong");
+            throw new BadCredentialsException("Either device doesn't exist or given credentials are wrong");
         }
 
         System.out.println("credentials are good and device exists in central repo");
 
-        CentralDeviceInventory device = centralDeviceInventoryRepository.findById(kickstonId).orElseThrow(() -> new RuntimeException("House by id: "+houseId+" doesn't exist"));
-        House house = houseRepository.findById(houseId).orElseThrow(() -> new RuntimeException("House by id: "+houseId+" doesn't exist"));
+        CentralDeviceInventory device = centralDeviceInventoryRepository.findById(kickstonId).orElseThrow(() -> new NotFoundException("Device with id: "+kickstonId+" doesn't exist"));
+        House house = houseRepository.findById(houseId).orElseThrow(() -> new NotFoundException("House by id: "+houseId+" doesn't exist"));
 
         DeviceAssignment deviceAssignment = new DeviceAssignment(device,house,null);
         deviceAssignmentRepository.save(deviceAssignment);

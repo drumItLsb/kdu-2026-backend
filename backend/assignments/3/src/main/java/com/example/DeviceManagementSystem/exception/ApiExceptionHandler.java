@@ -19,8 +19,8 @@ public class ApiExceptionHandler {
         );
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponseDTO> handleUserNotExist(UserNotFoundException ex, HttpServletRequest req) {
+    @ExceptionHandler({UserNotFoundException.class,NotFoundException.class})
+    public ResponseEntity<ErrorResponseDTO> handleNotFoundExceptions(Exception ex, HttpServletRequest req) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new ErrorResponseDTO(Instant.now(), 404, "NotFound", ex.getMessage(), req.getRequestURI())
         );
