@@ -28,4 +28,9 @@ public class Room extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "house_id",nullable = false)
     private House house_id;
+
+    public Room(String room_name, House house_id) {
+        this.room_name = room_name;
+        this.house_id = house_id;
+    }
 }
