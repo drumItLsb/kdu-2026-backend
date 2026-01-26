@@ -1,10 +1,7 @@
 package com.example.DeviceManagementSystem.controller;
 
 
-import com.example.DeviceManagementSystem.dto.HouseCreationRequestDTO;
-import com.example.DeviceManagementSystem.dto.HouseCreationResponseDTO;
-import com.example.DeviceManagementSystem.dto.RoomCreationRequestDTO;
-import com.example.DeviceManagementSystem.dto.RoomCreationResponseDTO;
+import com.example.DeviceManagementSystem.dto.*;
 import com.example.DeviceManagementSystem.service.HouseService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -34,5 +31,11 @@ public class HouseController {
     public ResponseEntity<RoomCreationResponseDTO> createRoom(@Valid @RequestBody RoomCreationRequestDTO roomCreationRequestDTO) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(houseService.createRoom(roomCreationRequestDTO));
+    }
+
+    @PostMapping("/register/house/user")
+    public ResponseEntity<UserRegisterToHouseResponseDTO> registerUserToHouse(@Valid @RequestBody UserRegisterToHouseRequestDTO userRegisterToHouseRequestDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(houseService.registerUserToHouse(userRegisterToHouseRequestDTO));
     }
 }

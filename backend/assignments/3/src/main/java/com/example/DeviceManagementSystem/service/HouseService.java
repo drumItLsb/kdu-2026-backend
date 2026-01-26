@@ -1,13 +1,11 @@
 package com.example.DeviceManagementSystem.service;
 
-import com.example.DeviceManagementSystem.dto.HouseCreationRequestDTO;
-import com.example.DeviceManagementSystem.dto.HouseCreationResponseDTO;
-import com.example.DeviceManagementSystem.dto.RoomCreationRequestDTO;
-import com.example.DeviceManagementSystem.dto.RoomCreationResponseDTO;
+import com.example.DeviceManagementSystem.dto.*;
 import com.example.DeviceManagementSystem.entity.House;
 import com.example.DeviceManagementSystem.entity.Room;
 import com.example.DeviceManagementSystem.entity.User;
 import com.example.DeviceManagementSystem.entity.UsersInHouse;
+import com.example.DeviceManagementSystem.exception.ResourceAlreadyExistsException;
 import com.example.DeviceManagementSystem.repository.HouseRepository;
 import com.example.DeviceManagementSystem.repository.RoomRepository;
 import com.example.DeviceManagementSystem.repository.UserRepository;
@@ -34,6 +32,10 @@ public class HouseService {
 
     public boolean userExists(String userEmail) {
         return userRepository.existsByEmail(userEmail);
+    }
+
+    public boolean userExistsById(Long userId) {
+        return userRepository.existsById(userId);
     }
 
     @Transactional
@@ -97,5 +99,55 @@ public class HouseService {
         roomRepository.save(room);
 
         return new RoomCreationResponseDTO(roomName,room.getId(),house.getHouse_name(),user.getUserName());
+    }
+
+    public UserRegisterToHouseResponseDTO registerUserToHouse(UserRegisterToHouseRequestDTO userRegisterToHouseRequestDTO) {
+        String userEmail = userRegisterToHouseRequestDTO.getEmail();
+        String houseId = userRegisterToHouseRequestDTO.getHouseId();
+        Long userToBeAddedId = userRegisterToHouseRequestDTO.getUserToRegisterId();
+
+        if(!userExists(userEmail)) {
+            throw new RuntimeException("Admin User doesn't exist");
+        }
+
+        System.out.println("admin exists");
+
+        if(!userExistsById(userToBeAddedId)) {
+            throw new RuntimeException("User to add doesn't exist");
+        }
+
+        System.out.println("user to add exists");
+
+        User user = userRepository
+                .findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User doesn't exist"));
+
+        System.out.println("got admin");
+
+        if(!isAdmin(user.getId(), houseId)) {
+            throw new RuntimeException("Un-authorized access, you can't create rooms in house"+houseId);
+        }
+
+        System.out.println("admin error");
+
+
+        if(usersInHouseRepository.checkIfUserExistsById(userToBeAddedId,houseId) == 1L) {
+            throw new ResourceAlreadyExistsException("User to be added already exists in the house");
+        }
+
+        System.out.println("user to add exists in house");
+
+
+        User userToBeAdded = userRepository
+                .findById(userToBeAddedId)
+                .orElseThrow(() -> new RuntimeException("User doesn't exist"));
+        House house = houseRepository.findById(houseId).orElseThrow(() -> new RuntimeException("House by id: "+houseId+" doesn't exist"));
+        UsersInHouse newUser = new UsersInHouse(house,userToBeAdded,false);
+
+        System.out.println("user added to house");
+
+        usersInHouseRepository.save(newUser);
+
+        return new UserRegisterToHouseResponseDTO(userToBeAdded.getUserName(),houseId);
     }
 }
