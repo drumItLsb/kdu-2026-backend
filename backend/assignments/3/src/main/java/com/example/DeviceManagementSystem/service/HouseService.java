@@ -4,7 +4,7 @@ import com.example.DeviceManagementSystem.dto.*;
 import com.example.DeviceManagementSystem.entity.*;
 import com.example.DeviceManagementSystem.exception.ResourceAlreadyExistsException;
 import com.example.DeviceManagementSystem.repository.*;
-import org.springframework.security.core.parameters.P;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,13 +18,16 @@ public class HouseService {
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final DeviceAssignmentRepository deviceAssignmentRepository;
+    private final CentralDeviceInventoryRepository centralDeviceInventoryRepository;
 
-    public HouseService(HouseRepository houseRepository, UsersInHouseRepository usersInHouseRepository, UserRepository userRepository, RoomRepository roomRepository,  DeviceAssignmentRepository deviceAssignmentRepository) {
+
+    public HouseService(HouseRepository houseRepository, UsersInHouseRepository usersInHouseRepository, UserRepository userRepository, RoomRepository roomRepository,  DeviceAssignmentRepository deviceAssignmentRepository, CentralDeviceInventoryRepository centralDeviceInventoryRepository) {
         this.houseRepository = houseRepository;
         this.usersInHouseRepository = usersInHouseRepository;
         this.userRepository = userRepository;
         this.roomRepository = roomRepository;
         this.deviceAssignmentRepository = deviceAssignmentRepository;
+        this.centralDeviceInventoryRepository = centralDeviceInventoryRepository;
     }
 
     public boolean userExists(String userEmail) {
@@ -166,7 +169,7 @@ public class HouseService {
             throw new RuntimeException("Device is not in house");
         }
 
-        System.out.println("device not in house");
+        System.out.println("device is in house");
 
         if(deviceAssignmentRepository.changeDeviceRoom(kickstonId,houseId,roomId) != 1L) {
             throw new RuntimeException("Something went wrong");
@@ -175,5 +178,45 @@ public class HouseService {
         System.out.println("Moved device to another room");
 
         return new DeviceAssignmentResponseDTO(kickstonId,roomId,houseId);
+    }
+
+
+    @Transactional
+    public DeviceAssignmentToHouseResponseDTO assignDeviceToHouse(DeviceAssignmentToHouseDTO deviceAssignmentToHouseDTO) {
+        String kickstonId = deviceAssignmentToHouseDTO.getKickston_id();
+        String houseId = deviceAssignmentToHouseDTO.getHouseId();
+        Long userId = deviceAssignmentToHouseDTO.getUserId();
+        String devicePassword = deviceAssignmentToHouseDTO.getDevice_password();
+        String deviceUserName = deviceAssignmentToHouseDTO.getDevice_username();
+
+        if(!userExistsById(userId)) {
+            throw new RuntimeException("User doesn't exist");
+        }
+
+
+        if(!houseRepository.existsById(houseId)) {
+            throw new RuntimeException("House with id: "+houseId+" doesn't exist");
+        }
+
+
+        if(!isAdmin(userId, houseId)) {
+            throw new RuntimeException("Un-authorized access, you can't add devices to this house"+houseId);
+        }
+
+
+        if(deviceAssignmentRepository.checkIfDeviceExistsInRoom(kickstonId,houseId) == 1L) {
+            throw new RuntimeException("Device is already in house");
+        }
+
+
+        if(centralDeviceInventoryRepository.checkIfGivenDeivceExists(kickstonId,deviceUserName,devicePassword) != 1L) {
+            throw new RuntimeException("Either device doesn't exist or given credentials are wrong");
+        }
+
+        House house = houseRepository.findById(houseId).orElseThrow(() -> new RuntimeException("House by id: "+houseId+" doesn't exist"));
+
+        DeviceAssignment deviceAssignment = new DeviceAssignment(kickstonId,house,null);
+
+        return new DeviceAssignmentToHouseResponseDTO(kickstonId,houseId);
     }
 }

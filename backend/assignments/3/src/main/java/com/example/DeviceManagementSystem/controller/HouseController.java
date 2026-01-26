@@ -38,4 +38,9 @@ public class HouseController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(houseService.registerUserToHouse(userRegisterToHouseRequestDTO));
     }
+
+    @PostMapping("/register/house/device")
+    public ResponseEntity<DeviceAssignmentToHouseResponseDTO> assignDeviceToHouse(@Valid @RequestBody DeviceAssignmentToHouseDTO deviceAssignmentToHouseDTO) {
+        return ResponseEntity.ok(houseService.assignDeviceToHouse(deviceAssignmentToHouseDTO));
+    }
 }

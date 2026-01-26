@@ -32,4 +32,10 @@ public class DeviceAssignment extends BaseEntity{
     @OneToOne
     @JoinColumn(name = "room_id")
     private Room room_id;
+
+    public DeviceAssignment(String id, House house_id, Room room_id) {
+        this.id = id;
+        this.house_id = house_id;
+        this.room_id = room_id;
+    }
 }
