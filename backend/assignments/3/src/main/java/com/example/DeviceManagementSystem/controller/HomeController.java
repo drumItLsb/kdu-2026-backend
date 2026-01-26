@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping("/api/home")
     public String greet() {
         return "Welcome to kickdrum Device management system";
     }
