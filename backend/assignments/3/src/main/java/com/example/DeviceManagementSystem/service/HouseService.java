@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -281,5 +282,44 @@ public class HouseService {
         }
 
         return usersInHouseRepository.getAllHousesWhereUserBelongs(userId);
+    }
+
+    public SwitchAdminResponseDTO changeAdmins(SwitchAdminRequestDTO switchAdminRequestDTO) {
+        Long currentAdminId = switchAdminRequestDTO.getCurrentAdminId();
+        Long newAdminId = switchAdminRequestDTO.getNewAdminId();
+        String houseId = switchAdminRequestDTO.getHouseId();
+
+        if(Objects.equals(currentAdminId, newAdminId)) {
+            throw new ResourceAlreadyExistsException("Both ids can't be same!");
+        }
+
+        if(!userExistsById(currentAdminId)) {
+            throw new UserNotFoundException("User with id: "+currentAdminId+" doesn't exist");
+        }
+        if(!userExistsById(newAdminId)) {
+            throw new UserNotFoundException("User with id: "+newAdminId+" doesn't exist");
+        }
+
+        if(!houseRepository.existsById(houseId)) {
+            throw new NotFoundException("House with id: "+houseId+" doesn't exist");
+        }
+
+        if(!isAdmin(currentAdminId, houseId)) {
+            throw new UnAuthorizedAccessException("Un-authorized access, you can't add change the admin in the house with id: "+houseId);
+        }
+
+        if(usersInHouseRepository.checkIfUserExistsById(newAdminId,houseId) != 1L) {
+            throw new UserNotFoundException("User with id: "+newAdminId+" doesn't exist in house with id: "+houseId);
+        }
+
+        if
+        (
+                usersInHouseRepository.removeFromAdminRole(currentAdminId,houseId) != 1L ||
+                usersInHouseRepository.addAdminRole(newAdminId,houseId) != 1L
+        ) {
+            throw new RuntimeException("Something went wrong");
+        }
+
+        return new SwitchAdminResponseDTO(newAdminId,currentAdminId,houseId);
     }
 }

@@ -57,4 +57,9 @@ public class HouseController {
     public ResponseEntity<List<String>> getAllHousesOfUser(@PathVariable Long userId) {
         return ResponseEntity.ok(houseService.getAllHousesOfUser(userId));
     }
+
+    @PatchMapping("/house/admins")
+    public ResponseEntity<SwitchAdminResponseDTO> switchAdmins(@Valid @RequestBody SwitchAdminRequestDTO switchAdminRequestDTO) {
+        return ResponseEntity.ok(houseService.changeAdmins(switchAdminRequestDTO));
+    }
 }

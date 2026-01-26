@@ -3,6 +3,7 @@ package com.example.DeviceManagementSystem.repository;
 import com.example.DeviceManagementSystem.entity.UsersInHouse;
 import com.example.DeviceManagementSystem.entity.compositeKeys.UsersInHouseId;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -21,5 +22,13 @@ public interface UsersInHouseRepository extends JpaRepository<UsersInHouse, User
 
     @Query(value = "SELECT u.house_id FROM users_in_house u WHERE u.user_id = :userId",nativeQuery = true)
     List<String> getAllHousesWhereUserBelongs(@Param("userId") Long userId);
+
+    @Modifying
+    @Query(value = "UPDATE users_in_house u SET u.is_admin = false WHERE u.user_id = :userId AND u.house_id = :houseId AND u.is_admin = true",nativeQuery = true)
+    Long removeFromAdminRole(@Param("userId") Long userId, @Param("houseId") String houseId);
+
+    @Modifying
+    @Query(value = "UPDATE users_in_house u SET u.is_admin = true WHERE u.user_id = :userId AND u.house_id = :houseId AND u.is_admin = false",nativeQuery = true)
+    Long addAdminRole(@Param("userId") Long userId, @Param("houseId") String houseId);
 
 }
