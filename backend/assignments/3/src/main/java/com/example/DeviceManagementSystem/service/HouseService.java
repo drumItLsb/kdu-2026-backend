@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -251,5 +252,26 @@ public class HouseService {
         System.out.println("device added");
 
         return new DeviceAssignmentToHouseResponseDTO(kickstonId,houseId);
+    }
+
+    public DevicesInHouseResponseDTO getAllDevicesFromHouse(DevicesInHouseRequestDTO devicesInHouseRequestDTO) {
+        String houseId = devicesInHouseRequestDTO.getHouseId();
+        Long userId = devicesInHouseRequestDTO.getUserId();
+
+        if(!userExistsById(userId)) {
+            throw new UserNotFoundException("User with id: "+userId+" doesn't exist");
+        }
+
+        if(!houseRepository.existsById(houseId)) {
+            throw new NotFoundException("House with id: "+houseId+" doesn't exist");
+        }
+
+        if(usersInHouseRepository.checkIfUserExistsByIdIncludingAdmin(userId,houseId) != 1L) {
+            throw new UnAuthorizedAccessException("User with id: "+userId+" not in the house with id: "+houseId+" , so this action is prohibited");
+        }
+
+        List<String> devicesList = deviceAssignmentRepository.getAllDevicesInHouse(houseId);
+
+        return new DevicesInHouseResponseDTO(devicesList);
     }
 }

@@ -6,10 +6,7 @@ import com.example.DeviceManagementSystem.service.HouseService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -47,5 +44,10 @@ public class HouseController {
     @PostMapping("/register/room/device")
     public ResponseEntity<DeviceAssignmentResponseDTO> assignDeviceToRoom(@Valid @RequestBody DeviceAssignmentRequestDTO deviceAssignmentRequestDTO) {
         return ResponseEntity.ok(houseService.assignDeviceToRooms(deviceAssignmentRequestDTO));
+    }
+
+    @PostMapping("/house/devices")
+    public ResponseEntity<DevicesInHouseResponseDTO> getAllDevicesFromHouse(@Valid @RequestBody DevicesInHouseRequestDTO devicesInHouseRequestDTO) {
+        return ResponseEntity.ok(houseService.getAllDevicesFromHouse(devicesInHouseRequestDTO));
     }
 }
