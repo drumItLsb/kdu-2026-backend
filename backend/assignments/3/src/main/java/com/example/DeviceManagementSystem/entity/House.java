@@ -22,6 +22,10 @@ public class House extends BaseEntity {
     @Id
     private String id;
 
+    @OneToOne
+    @JoinColumn(name = "owner_id")
+    private User user;
+
     @NotBlank(message = "address is required")
     private String address;
 
@@ -30,4 +34,11 @@ public class House extends BaseEntity {
 
     @OneToMany(mappedBy = "house_id")
     private List<Room> rooms;
+
+    public House(String id, User user, String address, String house_name) {
+        this.id = id;
+        this.user = user;
+        this.address = address;
+        this.house_name = house_name;
+    }
 }

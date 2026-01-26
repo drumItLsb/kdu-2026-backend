@@ -4,8 +4,6 @@ import com.example.DeviceManagementSystem.config.JwtService;
 import com.example.DeviceManagementSystem.dto.*;
 import com.example.DeviceManagementSystem.service.UserService;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +17,6 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final UserService userService;
-    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
 
     public AuthController(AuthenticationManager authenticationManager, JwtService jwtService, UserService userService) {

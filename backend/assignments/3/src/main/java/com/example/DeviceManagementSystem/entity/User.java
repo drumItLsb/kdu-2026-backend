@@ -32,11 +32,11 @@ public class User extends BaseEntity {
     private String password;
 
     @Column(nullable = false,unique = true)
-    private String user_name;
+    private String userName;
 
-    public User(String email, String password, String user_name) {
+    public User(String email, String password, String userName) {
         this.email = email;
         this.password = password;
-        this.user_name = user_name;
+        this.userName = userName;
     }
 }
