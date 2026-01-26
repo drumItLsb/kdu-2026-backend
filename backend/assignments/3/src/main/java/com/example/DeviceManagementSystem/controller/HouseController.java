@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1")
 public class HouseController {
@@ -49,5 +51,10 @@ public class HouseController {
     @PostMapping("/house/devices")
     public ResponseEntity<DevicesInHouseResponseDTO> getAllDevicesFromHouse(@Valid @RequestBody DevicesInHouseRequestDTO devicesInHouseRequestDTO) {
         return ResponseEntity.ok(houseService.getAllDevicesFromHouse(devicesInHouseRequestDTO));
+    }
+
+    @GetMapping("/house/{userId}")
+    public ResponseEntity<List<String>> getAllHousesOfUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(houseService.getAllHousesOfUser(userId));
     }
 }

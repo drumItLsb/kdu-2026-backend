@@ -274,4 +274,12 @@ public class HouseService {
 
         return new DevicesInHouseResponseDTO(devicesList);
     }
+
+    public List<String> getAllHousesOfUser(Long userId) {
+        if(!userExistsById(userId)) {
+            throw new UserNotFoundException("User with id: "+userId+" doesn't exist");
+        }
+
+        return usersInHouseRepository.getAllHousesWhereUserBelongs(userId);
+    }
 }
