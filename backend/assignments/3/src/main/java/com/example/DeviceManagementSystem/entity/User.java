@@ -20,7 +20,7 @@ import org.hibernate.annotations.SQLRestriction;
 @SQLRestriction("is_deleted = false")
 public class User extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -33,4 +33,10 @@ public class User extends BaseEntity {
 
     @Column(nullable = false,unique = true)
     private String user_name;
+
+    public User(String email, String password, String user_name) {
+        this.email = email;
+        this.password = password;
+        this.user_name = user_name;
+    }
 }
