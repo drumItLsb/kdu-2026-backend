@@ -159,6 +159,18 @@ public class HouseService {
         Integer roomId = deviceAssignmentRequestDTO.getRoomId();
         Long userId = deviceAssignmentRequestDTO.getUserId();
 
+        if(!userExistsById(userId)) {
+            throw new RuntimeException("User doesn't exist");
+        }
+        System.out.println("User exists");
+
+        if(!houseRepository.existsById(houseId)) {
+            throw new RuntimeException("House with id: "+houseId+" doesn't exist");
+        }
+
+        System.out.println("House exists");
+
+
         if(usersInHouseRepository.checkIfUserExistsById(userId,houseId) != 1L) {
             throw new RuntimeException("User not in the house");
         }
@@ -193,29 +205,46 @@ public class HouseService {
             throw new RuntimeException("User doesn't exist");
         }
 
+        System.out.println("User exists");
 
         if(!houseRepository.existsById(houseId)) {
             throw new RuntimeException("House with id: "+houseId+" doesn't exist");
         }
+
+        System.out.println("house exists");
 
 
         if(!isAdmin(userId, houseId)) {
             throw new RuntimeException("Un-authorized access, you can't add devices to this house"+houseId);
         }
 
+        System.out.println("User is admin");
 
         if(deviceAssignmentRepository.checkIfDeviceExistsInRoom(kickstonId,houseId) == 1L) {
             throw new RuntimeException("Device is already in house");
         }
 
+        System.out.println("device not in house");
+
+        if(deviceAssignmentRepository.checkIfDeviceExistsInDifferentHouse(kickstonId,houseId) == 1L) {
+            throw new RuntimeException("Device is in another house, so can't add it to current house");
+        }
+
+        System.out.println("device not in another house");
 
         if(centralDeviceInventoryRepository.checkIfGivenDeivceExists(kickstonId,deviceUserName,devicePassword) != 1L) {
             throw new RuntimeException("Either device doesn't exist or given credentials are wrong");
         }
 
+        System.out.println("credentials are good and device exists in central repo");
+
+        CentralDeviceInventory device = centralDeviceInventoryRepository.findById(kickstonId).orElseThrow(() -> new RuntimeException("House by id: "+houseId+" doesn't exist"));
         House house = houseRepository.findById(houseId).orElseThrow(() -> new RuntimeException("House by id: "+houseId+" doesn't exist"));
 
-        DeviceAssignment deviceAssignment = new DeviceAssignment(kickstonId,house,null);
+        DeviceAssignment deviceAssignment = new DeviceAssignment(device,house,null);
+        deviceAssignmentRepository.save(deviceAssignment);
+
+        System.out.println("device added");
 
         return new DeviceAssignmentToHouseResponseDTO(kickstonId,houseId);
     }

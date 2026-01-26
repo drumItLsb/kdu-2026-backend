@@ -43,4 +43,9 @@ public class HouseController {
     public ResponseEntity<DeviceAssignmentToHouseResponseDTO> assignDeviceToHouse(@Valid @RequestBody DeviceAssignmentToHouseDTO deviceAssignmentToHouseDTO) {
         return ResponseEntity.ok(houseService.assignDeviceToHouse(deviceAssignmentToHouseDTO));
     }
+
+    @PostMapping("/register/room/device")
+    public ResponseEntity<DeviceAssignmentResponseDTO> assignDeviceToRoom(@Valid @RequestBody DeviceAssignmentRequestDTO deviceAssignmentRequestDTO) {
+        return ResponseEntity.ok(houseService.assignDeviceToRooms(deviceAssignmentRequestDTO));
+    }
 }

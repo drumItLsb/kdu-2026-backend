@@ -9,8 +9,11 @@ import org.springframework.data.repository.query.Param;
 
 
 public interface DeviceAssignmentRepository extends JpaRepository<DeviceAssignment, String> {
-    @Query(value = "SELECT EXISTS (SELECT 1 FROM device_assignment d WHERE d.kickston_id = :kickstonId AND d.house_id = :houseId AND d.room_id is null)",nativeQuery = true)
+    @Query(value = "SELECT EXISTS (SELECT 1 FROM device_assignment d WHERE d.kickston_id = :kickstonId AND d.house_id = :houseId)",nativeQuery = true)
     Long checkIfDeviceExistsInRoom(@Param("kickstonId") String kickstonId, @Param("houseId") String houseId);
+
+    @Query(value = "SELECT EXISTS (SELECT 1 FROM device_assignment d WHERE d.kickston_id = :kickstonId AND d.house_id != :houseId)",nativeQuery = true)
+    Long checkIfDeviceExistsInDifferentHouse(@Param("kickstonId") String kickstonId, @Param("houseId") String houseId);
 
     @Modifying
     @Query(value = "UPDATE device_assignment d SET d.room_id = :roomId WHERE d.kickston_id = :kickstonId AND d.house_id = :houseId",nativeQuery = true)
