@@ -3,6 +3,7 @@ package com.example.DeviceManagementSystem.service;
 import com.example.DeviceManagementSystem.dto.*;
 import com.example.DeviceManagementSystem.entity.*;
 import com.example.DeviceManagementSystem.exception.ResourceAlreadyExistsException;
+import com.example.DeviceManagementSystem.exception.UserNotFoundException;
 import com.example.DeviceManagementSystem.repository.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,12 +46,12 @@ public class HouseService {
         String address = houseCreationRequestDTO.getAddress();
 
         if(!userExists(userEmail)) {
-            throw new RuntimeException("User doesn't exist");
+            throw new UserNotFoundException("User with email: "+userEmail+" doesn't exist");
         }
 
         User user = userRepository
                 .findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User doesn't exist"));
+                .orElseThrow(() -> new UserNotFoundException("User with email: "+userEmail+" doesn't exist"));
 
 
         if(houseRepository.existsByHouseName(houseName,user.getId()) == 1L) {
@@ -78,12 +79,12 @@ public class HouseService {
         String houseId = roomCreationRequestDTO.getHouseId();
 
         if(!userExists(userEmail)) {
-            throw new RuntimeException("User doesn't exist");
+            throw new UserNotFoundException("User with email: "+userEmail+" doesn't exist");
         }
 
         User user = userRepository
                 .findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User doesn't exist"));
+                .orElseThrow(() -> new UserNotFoundException("User with email: "+userEmail+" doesn't exist"));
 
         if(!isAdmin(user.getId(), houseId)) {
             throw new RuntimeException("Un-authorized access, you can't create rooms in house"+houseId);
@@ -108,20 +109,20 @@ public class HouseService {
         Long userToBeAddedId = userRegisterToHouseRequestDTO.getUserToRegisterId();
 
         if(!userExists(userEmail)) {
-            throw new RuntimeException("Admin User doesn't exist");
+            throw new UserNotFoundException("Admin with email: "+userEmail+" doesn't exist");
         }
 
         System.out.println("admin exists");
 
         if(!userExistsById(userToBeAddedId)) {
-            throw new RuntimeException("User to add doesn't exist");
+            throw new UserNotFoundException("User to add userID:"+userToBeAddedId+" doesn't exist");
         }
 
         System.out.println("user to add exists");
 
         User user = userRepository
                 .findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User doesn't exist"));
+                .orElseThrow(() -> new UserNotFoundException("Admin with email: "+userEmail+" doesn't exist"));
 
         System.out.println("got admin");
 
@@ -160,7 +161,7 @@ public class HouseService {
         Long userId = deviceAssignmentRequestDTO.getUserId();
 
         if(!userExistsById(userId)) {
-            throw new RuntimeException("User doesn't exist");
+            throw new UserNotFoundException("User with id: "+userId+" doesn't exist");
         }
         System.out.println("User exists");
 
@@ -202,7 +203,7 @@ public class HouseService {
         String deviceUserName = deviceAssignmentToHouseDTO.getDevice_username();
 
         if(!userExistsById(userId)) {
-            throw new RuntimeException("User doesn't exist");
+            throw new UserNotFoundException("Admin with id: "+userId+" doesn't exist");
         }
 
         System.out.println("User exists");

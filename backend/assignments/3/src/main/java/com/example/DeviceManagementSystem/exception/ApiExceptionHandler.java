@@ -12,11 +12,17 @@ import java.time.Instant;
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
-
     @ExceptionHandler(ResourceAlreadyExistsException.class)
     public ResponseEntity<ErrorResponseDTO> handleAlreadyExists(ResourceAlreadyExistsException ex, HttpServletRequest req) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(
                 new ErrorResponseDTO(Instant.now(), 409, "Conflict", ex.getMessage(), req.getRequestURI())
+        );
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleUserNotExist(UserNotFoundException ex, HttpServletRequest req) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ErrorResponseDTO(Instant.now(), 404, "NotFound", ex.getMessage(), req.getRequestURI())
         );
     }
 
