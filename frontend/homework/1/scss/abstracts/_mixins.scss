@@ -1,0 +1,38 @@
+@use "functions" as f;
+
+@mixin down($bp-name) {
+  @media (max-width: f.bp($bp-name)) {
+    @content;
+  }
+}
+
+@mixin flex($justify: flex-start, $align: stretch, $direction: row, $gap: null) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+
+  @if $gap != null {
+    gap: $gap;
+  }
+}
+
+
+@mixin grid($cols, $gap: null, $justify-items: null, $align-items: null) {
+  display: grid;
+  grid-template-columns: $cols;
+
+  @if $gap != null {
+    gap: $gap;
+  }
+  @if $justify-items != null {
+    justify-items: $justify-items;
+  }
+  @if $align-items != null {
+    align-items: $align-items;
+  }
+}
+
+@mixin section-headings {
+  text-align: center;
+}
