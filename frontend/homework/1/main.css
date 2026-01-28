@@ -3,6 +3,8 @@ body {
   font-family: "Segoe UI", Roboto;
   background-color: #ffffff;
   width: 100vw;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .heading-1 {
@@ -71,4 +73,53 @@ body {
   width: 550px;
   height: 450px;
   border-radius: 10px;
+}
+
+.about {
+  background-color: rgb(246, 245, 245);
+  padding: 20px;
+}
+
+.about-h1, .about-h2 {
+  text-align: center;
+}
+
+.about-h1-highlight {
+  color: #2563eb;
+}
+
+.about-h1 {
+  font-size: 2rem;
+}
+
+.about-h2 {
+  color: gray;
+  font-size: 1rem;
+}
+
+.about-image-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+.about-images {
+  width: 150px;
+  height: 150px;
+  border-radius: 15px;
+}
+
+.about-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 30px 10px;
+  border-radius: 10px;
+}
+.about-container p {
+  font-size: 1rem;
+  text-wrap: wrap;
+  text-align: center;
 }/*# sourceMappingURL=main.css.map */
