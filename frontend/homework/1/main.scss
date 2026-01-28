@@ -21,6 +21,7 @@ body {
     width: 100vw;
     box-sizing: border-box;
     overflow-x: hidden;
+    color: $TextDark;
 }
 
 .heading-1 {
@@ -97,11 +98,11 @@ body {
     padding: 20px;
 }
 
-.about-h1,.about-h2 {
+.about-h1,.about-h2,.courses-h1, .courses-h2, .custom-form-h1, .custom-form-h2 {
     text-align: center;
 }
 
-.about-h1-highlight {
+.about-h1-highlight, .courses-h1-highlight, .custom-form-h1-highlight {
     color: $Primary;
 }
 
@@ -109,7 +110,7 @@ body {
     font-size: $LG;
 }
 
-.about-h2 {
+.about-h2, .courses-h2, .custom-form-h2{
     color: gray;
     font-size: $SM;
 }
@@ -139,4 +140,102 @@ body {
         text-align: center;
     }
     border-radius: 10px;
+}
+
+.courses {
+    min-height: 90vh;
+}
+
+
+.courses-cards {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    justify-items: center;
+}
+
+.courses-card {
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(236, 226, 226, 0.726);
+    width: 250px;
+    padding-bottom: 10px;
+    
+    p {
+        font-size: 0.8rem;
+        color: $TextDark;
+        text-align: center;
+    }
+}
+
+.courses-card-images {
+    width: 250px;
+    height: 130px;
+    border-radius: 15px 15px 0 0;
+}
+
+.footer {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    button {
+        color: $Primary;
+        border: none;
+    }
+}
+
+.hrline {
+    background-color: rgb(145, 142, 142);
+    width: 100%;
+    height: 1px;
+    margin: 5px;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: $Primary;
+    color: $White;
+    min-height: 25vh;
+}
+
+.custom-form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.custom-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 500px;
+    align-self: center;
+    background-color: $LightGray;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.form-radio-group-wrapper{
+    display: flex;
+}
+
+textarea {
+    resize: none;
+}
+
+.terms-and-conditions-highlight {
+    color: $Primary;
+    text-decoration: underline;
+}
+
+.form-submit-button {
+    height: 35px;
+    background-color: $Primary;
+    color: $White;
+    border: none;
+    border-radius: 7px;
 }
