@@ -1,0 +1,12 @@
+@use "../abstracts" as *;
+
+.stats {
+  @include flex(space-around, center);
+  background-color: color(primary);
+  color: color(white);
+  min-height: 25vh;
+}
+
+.courses {
+  min-height: 90vh;
+}
