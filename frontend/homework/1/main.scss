@@ -1,0 +1,91 @@
+$Primary:#2563eb;
+$Secondary:#7c3aed;
+$Accent: #f59e0b;
+$TextDark: #1f2937;
+$TextLight: #6b7280;
+$White: #ffffff;
+$LightGray: #f9fafb;
+$Basefontsize: 16px;
+$Fontfamily: 'Segoe UI', Roboto;
+$XS: 0.5rem;
+$SM: 1rem;
+$MD: 1.5rem;
+$LG: 2rem;
+$XL: 3rem;
+$twoXL: 4rem;
+
+body {
+    margin: 0;
+    font-family: $Fontfamily;
+    background-color: $White;
+    width: 100vw;
+}
+
+.heading-1 {
+    color: $TextDark;
+}
+
+.heading-2 {
+    color: $Primary;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    box-shadow: 0 1px 1px 1px rgb(208, 207, 207);
+}
+
+.nav-elements {
+    display: flex;
+    width: 500px;
+    justify-content: space-between;
+}
+
+.homepage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 50px;
+}
+
+.homepage-1 {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        font-weight: 600;
+        .h1 {
+            font-size: $twoXL;
+        }
+        .h2 {
+            font-size: $MD;
+            color: gray;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .butt-1,.butt-2 {
+            width: 100px;
+            height: 40px;
+            border-radius: 5px;
+        }
+        .butt-1 {
+            background-color: $Primary;
+            color: $White;
+            border: none;
+        }
+        .butt-2 {
+            border: 2px solid $Primary;
+            color: $Primary;
+            background-color: $White;
+        }
+}
+
+.hero-image {
+    width: 550px;
+    height: 450px;
+    border-radius: 10px;
+}
