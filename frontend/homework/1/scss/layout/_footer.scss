@@ -1,0 +1,18 @@
+@use "../abstracts" as *;
+
+.footer {
+  @include flex(space-around, center);
+  width: 100%;
+
+  button {
+    color: color(primary);
+    border: none;
+  }
+}
+
+.hrline {
+  background-color: color(hr);
+  width: 100%;
+  height: 1px;
+  margin: 5px;
+}

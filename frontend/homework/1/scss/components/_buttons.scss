@@ -1,0 +1,26 @@
+@use "../abstracts" as *;
+
+.buttons {
+  @include flex(flex-start, center, row, 15px);
+}
+
+// Base button style for both .butt-1 and .butt-2
+%btn-base {
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.butt-1 {
+  @extend %btn-base;
+  background-color: color(primary);
+  color: color(white);
+  border: none;
+}
+
+.butt-2 {
+  @extend %btn-base;
+  border: 2px solid color(primary);
+  color: color(primary);
+  background-color: color(white);
+}

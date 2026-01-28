@@ -1,0 +1,21 @@
+@use "tokens" as t;
+
+@function color($key) {
+  @return map-get(t.$colors, $key);
+}
+
+@function space($key) {
+  @return map-get(t.$space, $key);
+}
+
+@function font($key) {
+  @return map-get(t.$font, $key);
+}
+
+@function bp($key) {
+  @return map-get(t.$breakpoints, $key);
+}
+
+@function size($key) {
+  @return map-get(t.$sizes, $key);
+}

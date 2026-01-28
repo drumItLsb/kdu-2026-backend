@@ -1,0 +1,35 @@
+@use "../abstracts" as *;
+
+.custom-form {
+  @include flex(center, stretch, column);
+}
+
+.custom-form-container {
+  @include flex(flex-start, stretch, column, 15px);
+  width: size(container);
+  align-self: center;
+  background-color: color(light-gray);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.form-radio-group-wrapper {
+  display: flex;
+}
+
+textarea {
+  resize: none;
+}
+
+.terms-and-conditions-highlight {
+  color: color(primary);
+  text-decoration: underline;
+}
+
+.form-submit-button {
+  height: 35px;
+  background-color: color(primary);
+  color: color(white);
+  border: none;
+  border-radius: 7px;
+}

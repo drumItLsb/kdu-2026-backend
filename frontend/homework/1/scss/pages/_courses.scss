@@ -1,0 +1,15 @@
+@use "../abstracts" as *;
+
+.courses-h1,
+.courses-h2 {
+  @include section-headings;
+}
+
+.courses-h1-highlight {
+  color: color(primary);
+}
+
+.courses-h2 {
+  color: gray;
+  font-size: space(sm);
+}

@@ -1,0 +1,12 @@
+@use "../abstracts" as *;
+
+.navigation {
+  @include flex(space-around, center);
+  width: 100%;
+  box-shadow: 0 1px 1px 1px color(shadow);
+}
+
+.nav-elements {
+  @include flex(space-between, center);
+  width: size(container);
+}

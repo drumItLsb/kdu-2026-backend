@@ -1,0 +1,16 @@
+@use "../abstracts" as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: font(family);
+  background-color: color(white);
+  width: 100vw;
+  overflow-x: hidden;
+  color: color(text-dark);
+}

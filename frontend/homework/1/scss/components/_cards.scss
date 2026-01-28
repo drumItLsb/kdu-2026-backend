@@ -1,0 +1,37 @@
+@use "../abstracts" as *;
+
+.courses-cards {
+  @include grid(repeat(3, 1fr), null, center);
+}
+
+.courses-card {
+  border-radius: 15px;
+  @include flex(center, center, column);
+  background-color: rgba(236, 226, 226, 0.726);
+  width: size(card-w);
+  padding-bottom: 10px;
+  position: relative;
+
+  p {
+    font-size: 0.8rem;
+    color: color(text-dark);
+    text-align: center;
+  }
+
+  .beginner-float-box {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: color(accent);
+    padding: 5px;
+    border-radius: 20px;
+    color: color(white);
+    font-size: 0.8rem;
+  }
+}
+
+.courses-card-images {
+  width: size(card-w);
+  height: size(card-img-h);
+  border-radius: 15px 15px 0 0;
+}

@@ -1,0 +1,40 @@
+@use "../abstracts" as *;
+
+.homepage {
+  @include grid(1fr 1fr, null, null, center);
+  padding: 50px;
+}
+
+@include down(md) {
+  .homepage {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 20px;
+
+    .homepage-1 {
+      .buttons {
+        justify-content: center;
+      }
+    }
+  }
+}
+
+.homepage-1 {
+  @include flex(flex-start, flex-start, column, 20px);
+  font-weight: 600;
+
+  .h1 {
+    font-size: space(2xl);
+  }
+
+  .h2 {
+    font-size: space(md);
+    color: gray;
+  }
+}
+
+.hero-image {
+  width: size(hero-w);
+  height: size(hero-h);
+  border-radius: 10px;
+}

@@ -1,0 +1,54 @@
+@use "../abstracts" as *;
+
+.about {
+  background-color: color(about-bg);
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.about-h1,
+.about-h2 {
+  @include section-headings;
+}
+
+.about-h1-highlight {
+  color: color(primary);
+}
+
+.about-h1 {
+  font-size: space(lg);
+}
+
+.about-h2 {
+  color: gray;
+  font-size: space(sm);
+}
+
+.about-image-wrapper {
+  @include grid(repeat(4, 1fr), 30px);
+}
+
+@include down(md) {
+  .about-image-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.about-images {
+  width: size(about-img);
+  height: size(about-img);
+  border-radius: 15px;
+}
+
+.about-container {
+  @include flex(center, center, column);
+  background-color: color(white);
+  padding: 30px 10px;
+  border-radius: 10px;
+
+  p {
+    font-size: space(sm);
+    text-align: center;
+    text-wrap: wrap;
+  }
+}
