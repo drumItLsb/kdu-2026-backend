@@ -102,8 +102,8 @@ function destructureTopPaidEmployees(employees,minSalary) {
     return a
 }
 
-function destructureTopPaidEmployees(employees,maxSalary) {
-    const [...a] = employees.filter(employee => employee.salary <= minSalary);
+function destructureBottomPaidEmployees(employees,maxSalary) {
+    const [...a] = employees.filter(employee => employee.salary <= maxSalary);
     return a
 }
 
