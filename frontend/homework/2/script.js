@@ -8,6 +8,12 @@ skills: ["JavaScript", "React", "Node.js"],
 experience: 5,
 getFullInfo: function() {
     return `Name: ${this.name} , age: ${this.ag}, salary: ${this.salary}, department: ${this.department}, skills: ${this.skills}, experience: ${this.experience}`
+},
+compareEmployees: function(emp2) {
+    if(this.skills.length > emp2.skills.length) {
+        return `hasMoreSkills(${this.name})`
+    }
+    return `hasMoreSkills(${emp2.name})`
 }
 }
 
@@ -37,13 +43,6 @@ function getEmployeeInfo(employee) {
 
 function addSkill(employee, skill) {
     employee.skills.push(skill)
-}
-
-function compareEmployees(emp1, emp2) {
-    if(emp1.skills.length > emp2.skills.length) {
-        return `hasMoreSkills(${emp1.name})`
-    }
-    return `hasMoreSkills(${emp2.name})`
 }
 
 
