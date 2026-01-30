@@ -1,4 +1,7 @@
 function Task(title, priority) {
+    if(title === undefined || priority === undefined) {
+        throw new Error("Please provide values for both Title and Priority")
+    }
     this.id = Date.now();
     this.title = title;
     this.priority = priority;
