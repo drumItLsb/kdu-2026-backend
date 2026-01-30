@@ -78,3 +78,12 @@ function demonstrateEventLoop() {
         delay += 2;
     }
 }
+
+async function createAndSaveTask(title, priority) {
+ const task1 = await createTaskAsync(title,priority);
+ const task2 = await createTaskAsync(title+"2",priority);
+
+ console.log("Task created and saved successfully!")
+
+ return [task1,task2]
+}
