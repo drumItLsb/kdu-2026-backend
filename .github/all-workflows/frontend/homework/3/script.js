@@ -40,3 +40,13 @@ PriorityTask.prototype.getInfo = function() {
 
     return Task.prototype.getInfo(this);
 }
+
+Task.prototype.getAllTasksInfo = function(tasks) {
+    const infoStringArray = [];
+
+    for(const task of tasks) {
+        infoStringArray.push(task.getInfo())
+    }
+
+    return infoStringArray;
+}
