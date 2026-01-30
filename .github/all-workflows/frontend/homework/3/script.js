@@ -17,3 +17,14 @@ Task.prototype.updatePriority = function(newPriority) {
     
     return this;
 }
+
+function PriorityTask(title, priority,dueDate = null) {
+    Task.call(title,priority);
+    this.dueDate = dueDate;
+}
+
+// extending Task prototype
+PriorityTask.prototype = Object.create(Task.prototype)
+
+PriorityTask.prototype.constructor = PriorityTask;
+
