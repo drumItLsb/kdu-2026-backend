@@ -80,18 +80,27 @@ function demonstrateEventLoop() {
 }
 
 async function createAndSaveTask(title, priority) {
- const task1 = await createTaskAsync(title,priority);
- const task2 = await createTaskAsync(title+"2",priority);
+    try {
+        const task1 = await createTaskAsync(title,priority);
+        const task2 = await createTaskAsync(title+"2",priority);
 
- console.log("Task created and saved successfully!")
+        console.log("Task created and saved successfully!")
+        return [task1,task2]
 
- return [task1,task2]
+    } catch (error) {
+        console.log(error)
+    }
+
 }
 
 async function createMultipleTasksAsync(taskDataArray) {
-    const pendingTasks = taskDataArray.map(task => createTaskAsync(task.title,task.priority));
-    const createdTasks = await Promise.all(pendingTasks);
-    console.log("Creating X tasks…");
-    console.log("All tasks created!");
-    return createdTasks
+    try {
+        const pendingTasks = taskDataArray.map(task => createTaskAsync(task.title,task.priority));
+        const createdTasks = await Promise.all(pendingTasks);
+        console.log("Creating X tasks…");
+        console.log("All tasks created!");
+        return createdTasks
+    } catch (error) {
+        console.log(error)
+    }
 }
