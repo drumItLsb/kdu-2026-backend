@@ -50,3 +50,15 @@ Task.prototype.getAllTasksInfo = function(tasks) {
 
     return infoStringArray;
 }
+
+
+function createTaskAsync(title, priority) {
+    console.log("Creating tasks…")
+
+    return new Promise((resolve,reject) => {
+        setTimeout(() => {
+            console.log("Task created!")
+            resolve(new Task(title,priority));
+        },1000)
+    })
+}
