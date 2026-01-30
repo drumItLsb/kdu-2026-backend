@@ -18,6 +18,10 @@ Task.prototype.updatePriority = function(newPriority) {
     return this;
 }
 
+Task.prototype.getInfo = function() {
+    return `id: ${this.id}, title: ${this.title}, priority: ${this.priority}, completed: ${this.completed}`
+}
+
 function PriorityTask(title, priority,dueDate = null) {
     Task.call(title,priority);
     this.dueDate = dueDate;
@@ -26,5 +30,13 @@ function PriorityTask(title, priority,dueDate = null) {
 // extending Task prototype
 PriorityTask.prototype = Object.create(Task.prototype)
 
+// specifying to call the PriorityTask constructor
 PriorityTask.prototype.constructor = PriorityTask;
 
+PriorityTask.prototype.getInfo = function() {
+    if(this.dueDate !== null) {
+        return `id: ${this.id}, title: ${this.title}, priority: ${this.priority}, completed: ${this.completed}, dueDate: ${this.dueDate}`
+    }
+
+    return Task.prototype.getInfo(this);
+}
