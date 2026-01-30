@@ -62,3 +62,19 @@ function createTaskAsync(title, priority) {
         },1000)
     })
 }
+
+function demonstrateEventLoop() {
+    let delay = 2000;
+    setTimeout(() => {
+            console.log(1)
+    },delay);
+
+    delay += 2;
+
+    for(let i=4;i>1;i--) {
+        setTimeout(() => {
+            console.log(i)
+        },delay);
+        delay += 2;
+    }
+}
