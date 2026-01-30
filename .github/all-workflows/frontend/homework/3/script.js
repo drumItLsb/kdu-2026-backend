@@ -23,7 +23,7 @@ Task.prototype.getInfo = function() {
 }
 
 function PriorityTask(title, priority,dueDate = null) {
-    Task.call(title,priority);
+    Task.call(this,title,priority);
     this.dueDate = dueDate;
 }
 
@@ -38,7 +38,7 @@ PriorityTask.prototype.getInfo = function() {
         return `id: ${this.id}, title: ${this.title}, priority: ${this.priority}, completed: ${this.completed}, dueDate: ${this.dueDate}`
     }
 
-    return Task.prototype.getInfo(this);
+    return Task.prototype.getInfo.call(this);
 }
 
 Task.prototype.getAllTasksInfo = function(tasks) {
