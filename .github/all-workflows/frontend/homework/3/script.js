@@ -87,3 +87,11 @@ async function createAndSaveTask(title, priority) {
 
  return [task1,task2]
 }
+
+async function createMultipleTasksAsync(taskDataArray) {
+    const pendingTasks = taskDataArray.map(task => createTaskAsync(task.title,task.priority));
+    const createdTasks = await Promise.all(pendingTasks);
+    console.log("Creating X tasks…");
+    console.log("All tasks created!");
+    return createdTasks
+}
